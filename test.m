@@ -8,6 +8,9 @@ close all
 im = double(imread("./data/mask.tif"));
 im1 = double(imread("./data/contrast.tif"));
 
+% im = im_resize(im);
+% im1 = im_resize(im1);
+
 level = 1;
 while(level<=4)
     % divide the source and target image into subimages
@@ -32,3 +35,4 @@ while(level<=4)
     fprintf("%d \n",level);
     level = level+1;
 end
+imwrite(uint16(im),'im_sub.tif');
