@@ -10,8 +10,6 @@ interp.power = 2; %power for inverse wwighting interpolation method
 
 % error
 err = 1e8;
-tic
-
 % the matrix T is initialized by the estimated parameters m
 T = [m(1) m(2) m(5);m(3) m(4) m(6);0 0 1];
 p = choose_p(x,y);
@@ -27,7 +25,7 @@ while(err>1e-2)
 
     %im = m(7)*im+m(8);
     % the transformation T is applied to the original source image
-    wrapped = tpswarp(source,[size(im,2) size(im,1)],p_,p,interp);
+    wrapped = tpswarp(source,[size(source,2) size(source,1)],p_,p,interp);
 
     % then the new affine parameters are calculated for the transformed
     % source image and target image using equation 6
@@ -40,7 +38,7 @@ while(err>1e-2)
     %s_ = sum(sum(ie_(1:951,:).^2));
     
     if s > s_
-        im = wrapped;
+        source = wrapped;
         k = k_;
         c = c_;
         %m = [T(1,1);T(1,2);T(2,1);T(2,2);T(1,3);T(2,3);m_(7);m_(8)];
@@ -50,9 +48,9 @@ while(err>1e-2)
         fprintf("err = %d\n",err);
         %imshow(wrapped,[])
     else
+        fprintf("unchanged \n");
         break;
     end
 end
-im_out = im;
-toc
+im_out = source;
 end
